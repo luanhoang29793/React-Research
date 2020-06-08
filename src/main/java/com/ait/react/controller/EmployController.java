@@ -43,11 +43,53 @@ public class EmployController {
         }
         }
         @GetMapping(value="/list")
-    public Map<String,Object> list(){
-        HashMap<String,Object> reponse = new HashMap<String,Object>();
-        try{
-            List<Employee>  employeeList;
-            employeeList = e
+        public Map<String, Object> list(){
+
+            HashMap<String,Object> response = new HashMap<String,Object>();
+
+            try {
+                List<Employee> employeeList;
+                employeeList = employeeRepository.findAll();
+                response.put("message","Successful load");
+                response.put("list",employeeList);
+                response.put("success",true);
+                return response;
+
+            } catch (Exception e) {
+                response.put("message",e.getMessage());
+                response.put("success ",false);
+                return response;
+            }
+
         }
+    @GetMapping(value = "get/{id}" )
+    public Map<String, Object> data(@PathVariable("id") Integer id){
+
+        HashMap<String,Object> response = new HashMap<String,Object>();
+
+        try {
+
+            Optional<Employee> employee = employeeRepository.findById(id);
+
+            if (employee.isPresent()) {
+                response.put("message","Successful load");
+                response.put("data",employee);
+                response.put("success",true);
+                return response;
+            }
+            else {
+                response.put("message","Not found data");
+                response.put("data",null);
+                response.put("success",false);
+                return response;
+            }
+
+        } catch (Exception e){
+            response.put("message",""+e.getMessage());
+            response.put("success",false);
+            return response;
         }
+    }
+
+
 }

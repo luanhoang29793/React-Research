@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import Nav from "./Nav"
-import Form from "./employee/Form"
-import List from "./employee/List"
-import Edit from "./employee/Edit"
+import Form from "./Employee/Form"
+import List from "./Employee/List"
+import Edit from "./Employee/Edit"
 
 import {
     BrowserRouter as Router,
@@ -23,6 +23,8 @@ export default class Main extends Component {
                         <Route path="/employee/form"  component={Form} />
                         <Route path="/employee/edit/:id" component={Edit} />
                     </Switch>
+                    <Nav/>
+
                 </main>
             </Router>
         )
