@@ -42,7 +42,7 @@ export default class Edit extends Component {
                         <label for="firstName">Name employee</label>
                         <input type="text" class="form-control"
                                value={this.state.fieldName}
-                               onChange={(value)=>this.setState({fieldName:value.target.value})}
+                               onChange={(event)=>this.setState({fieldName:event.target.value})}
                         />
                     </div>
                 </div>
@@ -52,7 +52,7 @@ export default class Edit extends Component {
                         <label for="email">Email</label>
                         <input type="email" class="form-control" placeholder="you@example.com"
                                value={this.state.fieldEmail}
-                               onChange={(value)=>this.setState({fieldEmail:value.target.value})}
+                               onChange={(event)=>this.setState({fieldEmail:event.target.value})}
                         />
                     </div>
                 </div>
@@ -62,7 +62,7 @@ export default class Edit extends Component {
                         <label for="address">Address</label>
                         <input type="text" class="form-control" placeholder="1234 Main St"
                                value={this.state.fieldAddress}
-                               onChange={(value)=>this.setState({fieldAddress:value.target.value})}
+                               onChange={(event)=>this.setState({fieldAddress:event.target.value})}
                         />
                     </div>
                 </div>
@@ -72,18 +72,31 @@ export default class Edit extends Component {
                         <label for="address">Phone </label>
                         <input type="text" class="form-control" placeholder="123467890"
                                value={this.state.fieldPhone}
-                               onChange={(value)=>this.setState({fieldPhone:value.target.value})}
+                               onChange={(event)=>this.setState({fieldPhone:event.target.value})}
                         />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <button class="btn btn-primary btn-block" type="submit">Save</button>
+                        <button onClick={()=>this.onClickUpdate()}
+                            class="btn btn-primary btn-block" type="submit">Update</button>
                     </div>
                 </div>
             </div>
 
         )
+    }
+    async onClickUpdate(){
+        console.log("Execute update");
+        const res = await  employeeServices.update(this.state)
+        if( res.success){
+            alert(res.message)
+        } else {
+            console.log("Error");
+            console.log(res);
+            alert ("Error ===>"+ JSON.stringify(res.data))
+        }
+
     }
 }

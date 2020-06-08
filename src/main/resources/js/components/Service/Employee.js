@@ -17,6 +17,19 @@ employee.get = async (id) => {
         .catch(error=>{ return error; })
     return res;
 }
+employee.update = async (state) => {
+    const datapost = {
+        name: state.fieldName,
+        email: state.fieldEmail,
+        phone: state.fieldPhone,
+        address: state.fieldAddress
+    }
+    const urlUpdate = baseUrl+"/update/" + state.id;
+    const res = await  Axios.put(urlUpdate,datapost).
+        then(reponse => {return reponse.data})
+        .catch(error => { return error.response})
+    return  res;
+}
 
 
 employee.create = async (state) => {
@@ -41,6 +54,13 @@ employee.create = async (state) => {
         })
 
     return res;
+}
+employee.delete = async (id) =>{
+    const urlDelete = baseUrl+"/delete/"+id
+    const  res = await  Axios.delete(urlDelete)
+        .then (reponse =>{return reponse.data})
+        .catch(error => {return error})
+    return  res;
 }
 
 export default employee

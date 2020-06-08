@@ -35760,9 +35760,9 @@ var Edit = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         value: this.state.fieldName,
-        onChange: function onChange(value) {
+        onChange: function onChange(event) {
           return _this2.setState({
-            fieldName: value.target.value
+            fieldName: event.target.value
           });
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
@@ -35776,9 +35776,9 @@ var Edit = /*#__PURE__*/function (_Component) {
         className: "form-control",
         placeholder: "you@example.com",
         value: this.state.fieldEmail,
-        onChange: function onChange(value) {
+        onChange: function onChange(event) {
           return _this2.setState({
-            fieldEmail: value.target.value
+            fieldEmail: event.target.value
           });
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
@@ -35792,9 +35792,9 @@ var Edit = /*#__PURE__*/function (_Component) {
         className: "form-control",
         placeholder: "1234 Main St",
         value: this.state.fieldAddress,
-        onChange: function onChange(value) {
+        onChange: function onChange(event) {
           return _this2.setState({
-            fieldAddress: value.target.value
+            fieldAddress: event.target.value
           });
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
@@ -35808,9 +35808,9 @@ var Edit = /*#__PURE__*/function (_Component) {
         className: "form-control",
         placeholder: "123467890",
         value: this.state.fieldPhone,
-        onChange: function onChange(value) {
+        onChange: function onChange(event) {
           return _this2.setState({
-            fieldPhone: value.target.value
+            fieldPhone: event.target.value
           });
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
@@ -35818,10 +35818,51 @@ var Edit = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "col-md-6 mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this2.onClickUpdate();
+        },
         className: "btn btn-primary btn-block",
         type: "submit"
-      }, "Save"))));
+      }, "Update"))));
     }
+  }, {
+    key: "onClickUpdate",
+    value: function () {
+      var _onClickUpdate = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                console.log("Execute update");
+                _context2.next = 3;
+                return _Service_Employee__WEBPACK_IMPORTED_MODULE_8__["default"].update(this.state);
+
+              case 3:
+                res = _context2.sent;
+
+                if (res.success) {
+                  alert(res.message);
+                } else {
+                  console.log("Error");
+                  console.log(res);
+                  alert("Error ===>" + JSON.stringify(res.data));
+                }
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onClickUpdate() {
+        return _onClickUpdate.apply(this, arguments);
+      }
+
+      return onClickUpdate;
+    }()
   }]);
 
   return Edit;
@@ -35897,7 +35938,8 @@ var Form = /*#__PURE__*/function (_Component) {
     key: "onClickSave",
     value: function () {
       var _onClickSave = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var res;
+        var res, dataError, error, _dataError;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -35911,8 +35953,35 @@ var Form = /*#__PURE__*/function (_Component) {
                 if (res.success) {
                   alert(res.message);
                   window.location.replace("/employee/index");
+                } else if (res.status == 400) {
+                  console.log(res.status);
+                  dataError = [];
+                  error = res.data.errors;
+
+                  if (error) {
+                    error.map(function (itemerror) {
+                      console.log(itemerror.defaultMessage);
+                      dataError.push(itemerror.defaultMessage);
+                    });
+                    this.setState({
+                      errorField: dataError
+                    });
+                  } else {
+                    dataError.push(res.data.message);
+                    this.setState({
+                      errorField: dataError
+                    });
+                  }
                 } else {
-                  alert("Error ==>" + res.message.message);
+                  // alert("Error ==>"+JSON.stringify(res))
+                  console.log(res);
+                  _dataError = [];
+
+                  _dataError.push(res.message);
+
+                  this.setState({
+                    errorField: _dataError
+                  });
                 }
 
               case 4:
@@ -36122,6 +36191,8 @@ var List = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("h4", null, "Employee List v3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("table", {
         className: "table"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("thead", {
@@ -36146,18 +36217,68 @@ var List = /*#__PURE__*/function (_Component) {
         key: "thead"
       }, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("tbody", {
         key: "tbody"
-      }, this.state.listEmployee.map(function (data) {
+      }, this.state.listEmployee.map(function (data, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("td", {
           scope: "row"
         }, data.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("td", null, data.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("td", null, data.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("td", null, data.address), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("td", null, data.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Link"], {
           to: "/employee/edit/" + data.id,
           className: "btn btn-light"
         }, " Edit "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("a", {
+          onClick: function onClick() {
+            return _this2.onClickDelete(i, data.id);
+          },
           href: "#",
           className: "btn btn-danger"
         }, " Delete ")));
       }))));
     }
+  }, {
+    key: "onClickDelete",
+    value: function () {
+      var _onClickDelete = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(index, id) {
+        var yes, res, list;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                yes = confirm("Are you sure to delete this item");
+
+                if (!(yes === true)) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                alert("delete");
+                _context2.next = 5;
+                return _Service_Employee__WEBPACK_IMPORTED_MODULE_8__["default"]["delete"](id);
+
+              case 5:
+                res = _context2.sent;
+                list = this.state.listEmployee;
+
+                if (res.success) {
+                  list.slice(index, 1);
+                  this.setState({
+                    listEmployee: list
+                  });
+                } else {
+                  alert("Error server ==>" + JSON.stringify(res));
+                }
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onClickDelete(_x, _x2) {
+        return _onClickDelete.apply(this, arguments);
+      }
+
+      return onClickDelete;
+    }()
   }]);
 
   return List;
@@ -36238,7 +36359,7 @@ var Main = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/employee/edit/:id",
         component: _Employee_Edit__WEBPACK_IMPORTED_MODULE_10__["default"]
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_Nav__WEBPACK_IMPORTED_MODULE_7__["default"], null)));
+      }))));
     }
   }]);
 
@@ -36412,33 +36533,25 @@ employee.get = /*#__PURE__*/function () {
   };
 }();
 
-employee.create = /*#__PURE__*/function () {
+employee.update = /*#__PURE__*/function () {
   var _ref3 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(state) {
-    var dataPost, urlPost, res;
+    var datapost, urlUpdate, res;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            dataPost = {
+            datapost = {
               name: state.fieldName,
               email: state.fieldEmail,
               phone: state.fieldPhone,
               address: state.fieldAddress
             };
-            urlPost = baseUrl + "/create";
+            urlUpdate = baseUrl + "/update/" + state.id;
             _context3.next = 4;
-            return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(urlPost, dataPost).then(function (response) {
-              var data = {
-                success: true,
-                message: response.data
-              };
-              return data;
+            return axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(urlUpdate, datapost).then(function (reponse) {
+              return reponse.data;
             })["catch"](function (error) {
-              var data = {
-                success: false,
-                message: error.response.data
-              };
-              return data;
+              return error.response;
             });
 
           case 4:
@@ -36455,6 +36568,84 @@ employee.create = /*#__PURE__*/function () {
 
   return function (_x2) {
     return _ref3.apply(this, arguments);
+  };
+}();
+
+employee.create = /*#__PURE__*/function () {
+  var _ref4 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(state) {
+    var dataPost, urlPost, res;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            dataPost = {
+              name: state.fieldName,
+              email: state.fieldEmail,
+              phone: state.fieldPhone,
+              address: state.fieldAddress
+            };
+            urlPost = baseUrl + "/create";
+            _context4.next = 4;
+            return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(urlPost, dataPost).then(function (response) {
+              var data = {
+                success: true,
+                message: response.data
+              };
+              return data;
+            })["catch"](function (error) {
+              var data = {
+                success: false,
+                message: error.response.data
+              };
+              return data;
+            });
+
+          case 4:
+            res = _context4.sent;
+            return _context4.abrupt("return", res);
+
+          case 6:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function (_x3) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+employee["delete"] = /*#__PURE__*/function () {
+  var _ref5 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+    var urlDelete, res;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            urlDelete = baseUrl + "/delete/" + id;
+            _context5.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](urlDelete).then(function (reponse) {
+              return reponse.data;
+            })["catch"](function (error) {
+              return error;
+            });
+
+          case 3:
+            res = _context5.sent;
+            return _context5.abrupt("return", res);
+
+          case 5:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+
+  return function (_x4) {
+    return _ref5.apply(this, arguments);
   };
 }();
 

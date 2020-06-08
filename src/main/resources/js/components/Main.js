@@ -23,8 +23,6 @@ export default class Main extends Component {
                         <Route path="/employee/form"  component={Form} />
                         <Route path="/employee/edit/:id" component={Edit} />
                     </Switch>
-                    <Nav/>
-
                 </main>
             </Router>
         )

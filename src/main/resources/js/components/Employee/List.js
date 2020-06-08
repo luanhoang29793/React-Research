@@ -36,7 +36,7 @@ export default  class List extends Component {
                         </tr>
                         </thead>
                         <tbody key="tbody">
-                        {this.state.listEmployee.map((data) => {
+                        {this.state.listEmployee.map((data,i) => {
                             return(
                                 <tr>
                                     <td scope="row">{data.id}</td>
@@ -46,7 +46,8 @@ export default  class List extends Component {
                                     <td>{data.phone}</td>
                                     <td>
                                         <Link to={"/employee/edit/"+ data.id} className="btn btn-light"> Edit </Link>
-                                        <a href="#" className="btn btn-danger"> Delete </a>
+                                        <a onClick = {()=> this.onClickDelete(i,data.id)}
+                                            href="#" className="btn btn-danger"> Delete </a>
                                     </td>
                                 </tr>
                             )
@@ -56,6 +57,21 @@ export default  class List extends Component {
                     </table>
             </section>
     )
+    }
+     async onClickDelete(index,id){
+        var yes = confirm("Are you sure to delete this item")
+        if (yes=== true){
+            alert("delete")
+            const  res = await  employeeServices.delete(id)
+            const list = this.state.listEmployee
+            if (res.success) {
+                list.slice(index, 1)
+                this.setState({listEmployee: list})
+            }else {
+            alert("Error server ==>" +JSON.stringify(res))}
+        }
+
+
     }
 }
 

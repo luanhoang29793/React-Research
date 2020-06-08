@@ -20,10 +20,32 @@ export default class Form extends Component {
             alert(res.message)
             window.location.replace("/employee/index")
         }
+        else if (res.status==400) {
+            console.log(res.status);
+            const dataError = []
+            const error = res.data.errors
+
+            if (error) {
+                error.map((itemerror)=>{
+                    console.log(itemerror.defaultMessage);
+                    dataError.push(itemerror.defaultMessage)
+                })
+                this.setState({errorField:dataError})
+            }
+            else {
+                dataError.push(res.data.message)
+                this.setState({errorField:dataError})
+            }
+        }
         else {
-            alert("Error ==>"+res.message.message)
+            // alert("Error ==>"+JSON.stringify(res))
+            console.log(res);
+            const dataError = []
+            dataError.push(res.message);
+            this.setState({errorField:dataError});
         }
     }
+
 
     render() {
         return (

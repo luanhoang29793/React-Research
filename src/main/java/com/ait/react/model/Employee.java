@@ -1,6 +1,10 @@
 package com.ait.react.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name="employee")
@@ -9,15 +13,17 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-
+    @Pattern(regexp = "^[\\p{L} .'-]+$", message = "The name field may only contain letters")
     @Column(name = "name")
     private String name;
-
+    @NotEmpty(message = "The email field is required")
+    @Email(message = "The value '${validatedValue}' must be a valid email address")
     @Column(name = "email")
     private String email;
-
+    @NotEmpty(message = "The address field is required")
     @Column(name = "address")
     private String address;
+    @Digits(integer = 10,fraction = 0, message = "The phone field must be less than or equual to 10")
 
     @Column(name = "phone")
     private Long phone;
